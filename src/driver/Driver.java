@@ -15,7 +15,7 @@ public class Driver {
     private static TopicService topicService = new TopicService();
     private static UserService userService = new UserService();
 
-    public static void main(String... s) throws Exception {
+    public static void main(String... s) {
 
         processMessages.start();
         Scanner sc = new Scanner(System.in);
@@ -23,46 +23,50 @@ public class Driver {
         String userName, role, topicName, output, text;
         Long id;
         while(true){
-            command = sc.next();
-            switch (command){
-                case "addUser":
-                    userName = sc.next();
-                    role = sc.next();
-                    UserRole userRole = null;
-                    if(role.equals("USER")){
-                        userRole = UserRole.USER;
-                    }else if(role.equals("ADMIN")){
-                        userRole = UserRole.ADMIN;
-                    }
-                    output = userService.addUser(userName, userRole);
-                    System.out.println(output);
-                    break;
+            try {
+                command = sc.next();
+                switch (command){
+                    case "addUser":
+                        userName = sc.next();
+                        role = sc.next();
+                        UserRole userRole = null;
+                        if(role.equals("USER")){
+                            userRole = UserRole.USER;
+                        }else if(role.equals("ADMIN")){
+                            userRole = UserRole.ADMIN;
+                        }
+                        output = userService.addUser(userName, userRole);
+                        System.out.println("Operation Success: " + output);;
+                        break;
 
-                case "addTopic":
-                    topicName = sc.next();
-                    userName = sc.next();
-                    output = topicService.addTopic(topicName, userName);
-                    System.out.println(output);
-                    break;
+                    case "addTopic":
+                        topicName = sc.next();
+                        userName = sc.next();
+                        output = topicService.addTopic(topicName, userName);
+                        System.out.println("Operation Success: " + output);;
+                        break;
 
-                case "subscribeTopic":
-                    topicName = sc.next();
-                    userName = sc.next();
-                    output = topicService.subscribe(topicName, userName);
-                    System.out.println(output);
-                    break;
+                    case "subscribeTopic":
+                        topicName = sc.next();
+                        userName = sc.next();
+                        output = topicService.subscribe(topicName, userName);
+                        System.out.println("Operation Success: " + output);;
+                        break;
 
-                case "publishMessage":
-                    id = sc.nextLong();
-                    topicName = sc.next();
-                    text = sc.next();
-                    output = messageService.publishMessage(id, text, topicName);
-                    System.out.println(output);
-                    break;
+                    case "publishMessage":
+                        id = sc.nextLong();
+                        topicName = sc.next();
+                        text = sc.next();
+                        output = messageService.publishMessage(id, text, topicName);
+                        System.out.println("Operation Success: " + output);;
+                        break;
 
-                default:
-                    System.out.println("Invalid command");
-                    break;
+                    default:
+                        System.out.println("Invalid command");
+                        break;
+                }
+            } catch (Exception e){
+                System.out.println("Operation FAILED: " + e.getMessage());
             }
         }
 
